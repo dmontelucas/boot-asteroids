@@ -5,10 +5,13 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 running = True
 black = (0, 0, 0)
+clock = pygame.time.Clock()
+dt = 0 
          
 def main():
     global running
     while running:
+        fps = clock.tick(60) / 1000.0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
