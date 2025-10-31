@@ -1,5 +1,7 @@
 import pygame
 from constants import *
+from player import *
+from circleshape import * 
 pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -16,6 +18,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         screen.fill("black")
+        Player.draw(screen)
         pygame.display.flip()
         
 
