@@ -1,13 +1,20 @@
 import pygame
+import constants
 from circleshape import *
+
+
 class Player(CircleShape): 
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self_x = x
+        self_y = y
+        self.radius = constants.PLAYER_RADIUS
+        self.rotation = 0
 
-    def draw(self, screen): 
-        pygame.draw.polygon
+    def draw(self, screen):
         color = (255, 255, 255)
-        self.screen = screen
+        line_width = 2
+        pygame.draw.polygon(screen, color, self.triangle(),)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
