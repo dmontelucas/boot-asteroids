@@ -2,7 +2,7 @@ import pygame
 from constants import *
 from player import Player
 from circleshape import * 
-import logger
+from logger import log_state
 
 pygame.init()
 
@@ -11,22 +11,26 @@ running = True
 black = (0, 0, 0)
 clock = pygame.time.Clock()
 
+
          
 def main():
     global running
     dt = 0
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, PLAYER_RADIUS)
 
     while running:
-        logger.log_state()
+        log_state()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-
-        player.update(dt)
+                running = False        
+        updatable.update(dt)
         screen.fill("black")
-        player.draw(screen)
+        for sprite in drawable:
+            sprite.draw(screen)
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000.0
