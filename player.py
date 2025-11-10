@@ -13,8 +13,7 @@ class Player(CircleShape):
 
     def draw(self, screen):
         color = (255, 255, 255)
-        line_width = 2
-        pygame.draw.polygon(screen, color, self.triangle(),line_width)
+        pygame.draw.polygon(screen, color, self.triangle(),constants.LINE_WIDTH)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
