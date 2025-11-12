@@ -11,6 +11,7 @@ class Player(CircleShape):
         self.position
         self.radius = constants.PLAYER_RADIUS
         self.rotation = 0
+        self.shoot_cooldown_timer = 0
 
     def draw(self, screen):
         color = (255, 255, 255)
@@ -32,10 +33,14 @@ class Player(CircleShape):
         self.position += forward * constants.PLAYER_SPEED * dt
     
     def shoot(self):
+        if self.shoot_cooldown_timer > 0:
+            return
         direction = pygame.Vector2(0, 1).rotate(self.rotation)
         vel = direction * constants.PLAYER_SHOOT_SPEED
         shot = Shot(self.position.x, self.position.y, constants.SHOT_RADIUS)
         shot.velocity = vel
+        self. shoot_cooldown_timer = constants.PLAYER_SHOOT_COOLDOWN_SECONDS
+
 
 
     def update(self, dt):
@@ -50,5 +55,5 @@ class Player(CircleShape):
             self.move(-dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
-
-
+        if self.shoot_cooldown_timer > 0:
+            self.shoot_cooldown_timer -= dt
