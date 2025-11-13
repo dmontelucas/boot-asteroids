@@ -19,7 +19,7 @@ running = True
 black = (0, 0, 0)
 clock = pygame.time.Clock()
 #main menu
-def main_menu():
+def main_menu(last_score=None):
     global running
     while running:
         screen.fill((0, 0, 0))
@@ -31,6 +31,10 @@ def main_menu():
         screen.blit(start_text, start_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)))
         screen.blit(quit_text, quit_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 60)))
         
+        if last_score is not None:
+            score_text = small_font.render(f"Last Score: {last_score}", True, (255, 255, 0))
+            screen.blit(score_text, score_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 120)))
+
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -50,6 +54,8 @@ def main_menu():
 def main():
     global running
     dt = 0
+    score = 0
+    score_font = pygame.font.Font(None, 36)
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -74,17 +80,21 @@ def main():
             if player.collides_with(a):
                 log_event("player_hit")
                 print("Game over!")
-                sys.exit()
+                main_menu(last_score=score)
         for a in asteroids:
             for shot in shots:
                 if a.collides_with(shot):
                     log_event("asteroid_shot")
                     shot.kill()
                     a.split()
+                    score += int(100 / a.radius)
         screen.fill("black")
         for sprite in drawable:
             sprite.draw(screen)
+        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (20, 20))
         pygame.display.flip()
+
 
         dt = clock.tick(60) / 1000.0
         
