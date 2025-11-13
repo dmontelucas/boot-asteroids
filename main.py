@@ -10,13 +10,43 @@ from logger import log_state, log_event
 
 pygame.init()
 
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Asteroids")
+font = pygame.font.Font(None, 74)
+small_font = pygame.font.Font(None, 40)
 running = True
 black = (0, 0, 0)
 clock = pygame.time.Clock()
+#main menu
+def main_menu():
+    global running
+    while running:
+        screen.fill((0, 0, 0))
 
+        title_text = font.render("ASTEROIDS", True, (255, 255, 255))
+        start_text = small_font.render("Press ENTER to Play", True, (255, 255, 255))
+        quit_text = small_font.render("Press ESC to Quit", True, (255, 255, 255))
+        screen.blit(title_text, title_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//3)))
+        screen.blit(start_text, start_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2)))
+        screen.blit(quit_text, quit_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 60)))
+        
+        pygame.display.flip()
 
-         
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    main()
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+        clock.tick(60)
+
+#main game loop        
 def main():
     global running
     dt = 0
@@ -69,4 +99,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main_menu()
